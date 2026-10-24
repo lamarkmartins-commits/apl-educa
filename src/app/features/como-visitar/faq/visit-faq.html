@@ -1,0 +1,22 @@
+<section id="duvidas" class="faq-section section" aria-labelledby="faq-title">
+  <div class="container faq-grid">
+    <div class="section-heading">
+      <p class="kicker">Dúvidas frequentes</p>
+      <h2 id="faq-title">Mais clareza para<br />seguir em frente.</h2>
+      <p>
+        Respostas baseadas na especificação do projeto. Quando uma regra ainda não está validada, o
+        próximo passo é confirmar com a APL.
+      </p>
+    </div>
+    <p-accordion [multiple]="true" aria-label="Perguntas frequentes sobre visitação">
+      @for (item of questions; track item.id) {
+        <p-accordion-panel [value]="item.id"
+          ><p-accordion-header>{{ item.question }}</p-accordion-header
+          ><p-accordion-content
+            ><p>{{ item.answer }}</p></p-accordion-content
+          ></p-accordion-panel
+        >
+      }
+    </p-accordion>
+  </div>
+</section>

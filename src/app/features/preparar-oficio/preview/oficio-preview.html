@@ -1,0 +1,20 @@
+<div class="preview-actions actions" data-oficio-screen>
+  <button pButton type="button" (click)="printRequested.emit()">Imprimir minuta</button
+  ><button pButton type="button" [outlined]="true" (click)="copy()">Copiar texto</button>
+</div>
+<p class="review-note" data-oficio-screen>
+  Minuta de apoio com os dados exigidos na política de visitação. Não é um formulário oficial da
+  APL. Revise antes de imprimir ou copiar. A impressão não adiciona timbre, assinatura ou protocolo.
+</p>
+<article class="oficio-document" aria-label="Prévia do ofício escolar">
+  @for (paragraph of paragraphs(); track $index) {
+    <p [class.document-title]="$index === 0" [class.signature]="$last">{{ paragraph }}</p>
+  }
+</article>
+<div data-oficio-screen>
+  <p role="status" aria-live="polite" class="copy-message">{{ copyMessage() }}</p>
+  @if (manualCopy()) {
+    <label for="manual-copy">Texto do ofício para cópia manual</label
+    ><textarea id="manual-copy" readonly rows="12" [value]="text()"></textarea>
+  }
+</div>

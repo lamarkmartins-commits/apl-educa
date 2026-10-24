@@ -1,0 +1,164 @@
+<div class="container request-page">
+  <nav class="breadcrumb" aria-label="Localização">
+    <a routerLink="/">Início</a><span aria-hidden="true">/</span
+    ><a routerLink="/como-visitar">Como visitar</a><span aria-hidden="true">/</span
+    ><span aria-current="page">Solicitação demonstrativa</span>
+  </nav>
+  <header class="intro">
+    <p class="eyebrow">Somente demonstração · Dados fictícios</p>
+    <h1>Organize a visita.<br /><em>Experimente o caminho.</em></h1>
+    <p>
+      Conheça as etapas de uma solicitação com dados de exemplo. Ao concluir, um registro será salvo
+      apenas no navegador, acompanhado de um identificador local demonstrativo.
+    </p>
+  </header>
+  <aside class="notice">
+    <p>
+      <strong>Este formulário não envia pedidos à APL.</strong> O ofício assinado e o canal
+      institucional continuam necessários para o procedimento oficial. Salvar aqui não agenda,
+      reserva ou protocola uma visita.
+    </p>
+    <a routerLink="/preparar-oficio">Precisa preparar o ofício? Acesse o modelo →</a>
+  </aside>
+
+  @if (saved(); as record) {
+    <section class="success" aria-labelledby="saved-title">
+      <p class="eyebrow">Registro local · Demonstração</p>
+      <h2 id="saved-title" tabindex="-1">Exemplo salvo no navegador.</h2>
+      <p>
+        Nenhum pedido foi enviado ou recebido pela APL. Este código não é um protocolo
+        institucional.
+      </p>
+      <dl>
+        <dt>Identificador local demonstrativo</dt>
+        <dd class="local-code">{{ record.idLocal }}</dd>
+        <dt>Status</dt>
+        <dd>Registrada localmente — demonstração</dd>
+        <dt>Escola fictícia</dt>
+        <dd>{{ record.escola.nome }}</dd>
+      </dl>
+      <p>
+        Guarde o código para a consulta demonstrativa. Os registros ficam neste navegador e neste
+        endereço; não são compartilhados entre dispositivos e podem desaparecer se os dados do
+        navegador forem apagados.
+      </p>
+      <p class="availability">Consulte somente o status de simulação salvo neste navegador.</p>
+      <div class="actions">
+        <a pButton routerLink="/acompanhar-solicitacao" [queryParams]="{ codigo: record.idLocal }"
+          >Acompanhar demonstração</a
+        ><a routerLink="/">Voltar ao início</a
+        ><a routerLink="/como-visitar">Rever o procedimento oficial</a>
+      </div>
+    </section>
+  } @else {
+    <div class="workspace">
+      <aside class="guide">
+        <p class="eyebrow">Como experimentar</p>
+        <h2>Um exemplo, quatro etapas.</h2>
+        <p>
+          Use o preenchimento fictício para conhecer o fluxo. O botão substitui os campos atuais
+          pelo exemplo.
+        </p>
+        <button pButton type="button" [outlined]="true" (click)="fillExample()">
+          Preencher com exemplo
+        </button>
+        <p class="privacy">
+          Não use dados pessoais reais. Antes de concluir, os campos ficam apenas nesta página e são
+          perdidos ao sair ou recarregar.
+        </p>
+        <p>
+          Os dados só serão gravados quando você escolher
+          <strong>Salvar demonstração local</strong> na revisão.
+        </p>
+      </aside>
+      <section class="request-panel" aria-labelledby="step-title">
+        <ol class="step-list" aria-label="Etapas da demonstração">
+          @for (
+            label of ['Escola', 'Responsável', 'Visita', 'Revisão'];
+            track label;
+            let index = $index
+          ) {
+            <li
+              [attr.aria-current]="step() === index ? 'step' : null"
+              [class.current]="step() === index"
+              [class.completed]="step() > index"
+            >
+              <span aria-hidden="true">0{{ index + 1 }}</span
+              >{{ label }}
+            </li>
+          }
+        </ol>
+        <p class="step-count">Etapa {{ step() + 1 }} de 4</p>
+        <h2 #stepHeading id="step-title" tabindex="-1">
+          {{ step() < 3 ? steps[step()].title : 'Confira antes de salvar' }}
+        </h2>
+        @if (step() < 3) {
+          <p class="description">{{ steps[step()].description }}</p>
+          <form [formGroup]="form" (ngSubmit)="next()" novalidate autocomplete="off">
+            <app-request-fields
+              [group]="form.controls[steps[step()].key]"
+              [fields]="steps[step()].fields"
+              [prefix]="'request-' + steps[step()].key"
+              [submitted]="submitted()"
+            />
+            @if (step() === 2 && quantity() !== null && quantity()! > 50) {
+              <aside class="notice capacity-note">
+                A política da APL prevê até 50 alunos como número ideal por turno. O grupo informado
+                deverá ser desmembrado para solicitar datas ou turnos diferentes. Este registro
+                local não representa uma reserva única nem realiza a divisão ou o agendamento.
+              </aside>
+            }
+            <div class="actions step-actions">
+              @if (step() > 0) {
+                <button pButton type="button" [outlined]="true" (click)="back()">← Voltar</button>
+              }
+              <button pButton type="submit">
+                {{ step() === 2 ? 'Revisar dados' : 'Próxima etapa' }} →
+              </button>
+            </div>
+          </form>
+        } @else if (review(); as input) {
+          <p class="description">
+            Confira os dados fictícios abaixo. Você pode editar qualquer grupo antes de salvar.
+            Preferências de data e turno não garantem disponibilidade.
+          </p>
+          <app-request-review [value]="input" (edit)="edit($event)" />
+          @if (input.quantidadeEstudantes > 50) {
+            <aside class="notice capacity-note">
+              Este total exige desmembramento do grupo para solicitar datas ou turnos diferentes,
+              conforme a política da APL. Salvar a demonstração não agenda uma visita única para
+              todos os estudantes e não realiza essa divisão automaticamente.
+            </aside>
+          }
+          <div class="consent">
+            <p-checkbox
+              inputId="demo-consent"
+              [binary]="true"
+              [formControl]="consent"
+              [attr.aria-invalid]="consent.touched && consent.invalid ? 'true' : null"
+              [ariaLabelledBy]="'demo-consent-label'"
+            /><label id="demo-consent-label" for="demo-consent"
+              >Estou usando dados fictícios e entendo que este registro fica somente no navegador,
+              sem envio à APL ou confirmação de visita.</label
+            >
+          </div>
+          @if (saveError()) {
+            <p class="save-error" role="alert">{{ saveError() }}</p>
+          }
+          <div class="actions step-actions">
+            <button pButton type="button" [outlined]="true" (click)="back()">← Voltar</button
+            ><button pButton type="button" (click)="save()">Salvar demonstração local</button>
+          </div>
+        }
+        <p class="feedback" role="status" aria-live="polite">{{ feedback() }}</p>
+      </section>
+    </div>
+  }
+  <footer class="page-note">
+    <p>
+      <strong>Confirmação real é sempre da APL.</strong> Para uma visita oficial, confirme o canal e
+      as regras com a equipe e encaminhe o ofício assinado fora desta plataforma.
+    </p>
+    <a routerLink="/como-visitar">← Voltar às orientações</a>
+  </footer>
+</div>

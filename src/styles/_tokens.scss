@@ -1,0 +1,20 @@
+// Fontes locais de fallback até a definição da tipografia final.
+:root {
+  --apl-brown: #513527;
+  --apl-terracotta: #a66a46;
+  --apl-cream: #f7f3eb;
+  --apl-white: #fff;
+  --apl-green: #56745f;
+  --apl-muted: #695d54;
+  --apl-border: #ded5c9;
+  --apl-font-body: Inter, system-ui, sans-serif;
+  --apl-font-heading: Georgia, serif;
+  --apl-space-1: 0.5rem;
+  --apl-space-2: 1rem;
+  --apl-space-3: 1.5rem;
+  --apl-space-4: 2rem;
+  --apl-space-5: 3rem;
+  --apl-space-6: 5rem;
+  --apl-radius: 0.75rem;
+  --apl-content-width: 74rem;
+}

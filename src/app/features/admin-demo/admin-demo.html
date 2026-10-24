@@ -1,0 +1,192 @@
+<div class="container admin-page">
+  <nav class="breadcrumb" aria-label="Localização">
+    <a routerLink="/">Início</a><span aria-hidden="true">/</span
+    ><span aria-current="page">Administração demonstrativa</span>
+  </nav>
+  <header class="intro">
+    <p class="eyebrow">Painel de simulação · Dados fictícios</p>
+    <h1>Entenda a análise.<br /><em>Experimente os estados.</em></h1>
+    <p>
+      Visualize e altere registros de teste salvos neste navegador. As ações deste painel não são
+      decisões institucionais.
+    </p>
+  </header>
+  <aside class="notice">
+    <p>
+      <strong>Área demonstrativa pública, sem autenticação.</strong> Use somente dados fictícios.
+      Esta página não é um ambiente administrativo oficial da APL e não envia e-mails, confirma
+      visitas ou altera uma agenda real.
+    </p>
+  </aside>
+  <div class="toolbar actions">
+    <button pButton type="button" [outlined]="true" [disabled]="!ready()" (click)="refresh()">
+      Atualizar registros</button
+    ><button pButton type="button" [disabled]="!ready()" (click)="examples()">
+      Adicionar exemplos fictícios</button
+    ><a routerLink="/solicitar-visita">Criar outra demonstração →</a>
+  </div>
+  <p class="feedback" role="status">{{ message() }}</p>
+  @if (error()) {
+    <p class="error" role="alert">{{ error() }}</p>
+  }
+  @if (!ready()) {
+    <p role="status">Os dados locais serão carregados no navegador.</p>
+  } @else if (!error()) {
+    <section class="summary" aria-label="Resumo dos registros locais">
+      @for (item of summary(); track item.label) {
+        <article>
+          <span>{{ item.label }}</span
+          ><strong>{{ item.count }}</strong>
+        </article>
+      }
+    </section>
+    <section class="listing" aria-labelledby="listing-title">
+      <h2 id="listing-title">Solicitações demonstrativas</h2>
+      <div class="filters">
+        <div>
+          <label for="admin-search">Buscar por escola, responsável ou código</label
+          ><input pInputText id="admin-search" [formControl]="search" type="search" />
+        </div>
+        <div>
+          <label for="admin-status-filter">Status de simulação</label
+          ><select id="admin-status-filter" [formControl]="statusFilter">
+            <option value="">Todos os status</option>
+            @for (option of statusOptions; track option.value) {
+              <option [value]="option.value">{{ option.label }}</option>
+            }
+          </select>
+        </div>
+        <div>
+          <label for="admin-school-filter">Rede da escola</label
+          ><select id="admin-school-filter" [formControl]="schoolFilter">
+            <option value="">Todas as redes</option>
+            <option value="publica">Pública</option>
+            <option value="particular">Particular</option>
+          </select>
+        </div>
+      </div>
+      <p class="result-count" aria-live="polite">
+        {{ filtered().length }} de {{ records().length }} registros demonstrativos.
+      </p>
+      @if (filtered().length) {
+        <div
+          class="table-region"
+          role="region"
+          aria-label="Tabela de registros demonstrativos, com rolagem horizontal quando necessário"
+          tabindex="0"
+        >
+          <table>
+            <caption>
+              Dados fictícios salvos neste navegador
+            </caption>
+            <thead>
+              <tr>
+                <th scope="col">Escola e identificador</th>
+                <th scope="col">Rede</th>
+                <th scope="col">Status local</th>
+                <th scope="col">Detalhe</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (record of filtered(); track record.idLocal) {
+                <tr>
+                  <td>
+                    <strong>{{ record.escola.nome }}</strong
+                    ><small class="table-code">{{ record.idLocal }}</small>
+                  </td>
+                  <td>{{ record.escola.tipo === 'publica' ? 'Pública' : 'Particular' }}</td>
+                  <td><app-demo-status [value]="record.status" /></td>
+                  <td>
+                    <button
+                      pButton
+                      type="button"
+                      [outlined]="true"
+                      [attr.aria-label]="'Ver detalhes de ' + record.escola.nome"
+                      (click)="select(record.idLocal)"
+                    >
+                      Ver detalhes
+                    </button>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      } @else {
+        <div class="empty">
+          <h3>
+            {{
+              records().length ? 'Nenhum resultado para os filtros' : 'Nenhum registro local ainda'
+            }}
+          </h3>
+          <p>
+            {{
+              records().length
+                ? 'Altere a busca ou os filtros para encontrar outros exemplos.'
+                : 'Crie uma solicitação demonstrativa ou use o botão para adicionar exemplos fictícios. Nenhum dado é adicionado automaticamente.'
+            }}
+          </p>
+        </div>
+      }
+    </section>
+  }
+  @if (selected(); as current) {
+    <section class="detail" aria-labelledby="detail-title">
+      <div class="detail-heading">
+        <h2 id="detail-title" tabindex="-1">Detalhe da demonstração</h2>
+        <a routerLink="/acompanhar-solicitacao" [queryParams]="{ codigo: current.idLocal }"
+          >Consultar este código →</a
+        >
+      </div>
+      <app-demo-record-details [record]="current" />
+      <div class="edit-grid">
+        <section aria-labelledby="status-title">
+          <h3 id="status-title">Próximo estado — simulação</h3>
+          <p>
+            As opções seguem o fluxo demonstrativo proposto na especificação, sem homologação como
+            processo institucional.
+          </p>
+          @if (allowed().length) {
+            <label for="next-status">Escolha um estado permitido</label
+            ><select id="next-status" [formControl]="nextStatus">
+              <option value="">Selecione</option>
+              @for (status of allowed(); track status) {
+                <option [value]="status">{{ labels[status] }}</option>
+              }</select
+            ><button pButton type="button" (click)="updateStatus()">
+              Salvar status de simulação
+            </button>
+          } @else {
+            <p>
+              Este é um estado final no modelo de simulação. Não há outra transição de status
+              prevista.
+            </p>
+          }
+        </section>
+        <section aria-labelledby="observation-title">
+          <h3 id="observation-title">Registrar observação de teste</h3>
+          <label for="admin-observation">Observação demonstrativa</label
+          ><textarea
+            pTextarea
+            id="admin-observation"
+            rows="4"
+            [formControl]="observation"
+            aria-describedby="observation-hint"
+          ></textarea
+          ><small id="observation-hint"
+            >Use somente texto fictício. A observação ficará visível na consulta
+            demonstrativa.</small
+          ><button pButton type="button" (click)="addObservation()">Salvar observação local</button>
+        </section>
+      </div>
+      @if (detailError()) {
+        <p class="error" role="alert">{{ detailError() }}</p>
+      }
+      <p class="feedback" role="status">{{ detailMessage() }}</p>
+    </section>
+  }
+  <footer class="page-note">
+    Registros, filtros e decisões deste painel pertencem apenas à demonstração. A confirmação real
+    de uma visita depende da equipe da APL.
+  </footer>
+</div>

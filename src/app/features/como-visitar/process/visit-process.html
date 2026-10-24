@@ -1,0 +1,27 @@
+<section id="passo-a-passo" class="process-section section" aria-labelledby="process-title">
+  <div class="container">
+    <div class="section-heading">
+      <p class="kicker">Da preparação à visita</p>
+      <h2 id="process-title">Um caminho para entender<br />antes de começar.</h2>
+      <p>
+        Este é um guia do processo externo à plataforma. As etapas de análise e confirmação dependem
+        da equipe da APL.
+      </p>
+    </div>
+    <ol class="process-list">
+      @for (step of steps; track step.title; let index = $index) {
+        <li>
+          <span class="step-number" aria-hidden="true">0{{ index + 1 }}</span>
+          <div>
+            <h3>{{ step.title }}</h3>
+            <p>{{ step.text }}</p>
+          </div>
+          @if (!$last) {
+            <span class="step-arrow" aria-hidden="true">↓</span>
+          }
+        </li>
+      }
+    </ol>
+    <p class="process-note">Uma data pretendida é uma preferência, não uma vaga reservada.</p>
+  </div>
+</section>

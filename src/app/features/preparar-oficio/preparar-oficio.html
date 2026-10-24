@@ -1,0 +1,188 @@
+<div class="container" data-oficio-screen>
+  <nav class="breadcrumb" aria-label="Localização">
+    <a routerLink="/">Início</a><span aria-hidden="true">/</span
+    ><a routerLink="/como-visitar">Como visitar</a><span aria-hidden="true">/</span
+    ><span aria-current="page">Preparar ofício</span>
+  </nav>
+  <header class="page-intro">
+    <p class="eyebrow">Documentação · Modelo proposto</p>
+    <h1>Preparar o ofício.<br /><em>Organizar o encontro.</em></h1>
+    <p>
+      Reúna os dados da escola e prepare uma minuta para revisão. Depois, utilize o papel timbrado,
+      providencie a assinatura da direção ou coordenação e envie como anexo ao e-mail oficial da
+      APL.
+    </p>
+  </header>
+  <aside class="notice">
+    <p>
+      <strong>Atenção ao uso do modelo.</strong> Este modelo deve ser revisado, colocado em papel
+      timbrado, assinado e encaminhado ao canal oficial informado pela APL. Gerar o documento não
+      agenda uma visita.
+    </p>
+  </aside>
+</div>
+
+<div class="container workspace">
+  <section class="form-panel" aria-labelledby="form-title" data-oficio-screen>
+    <h2 id="form-title">Os dados para a sua minuta</h2>
+    <p class="form-intro">
+      Os campos marcados com * compõem o modelo e incluem os dados exigidos na política de visitação
+      da APL. Cidade, data do documento, signatário e objetivo organizam a minuta. Use dados de
+      exemplo ao testar.
+    </p>
+    <p class="privacy">
+      Nenhuma informação é enviada ou salva. Ao sair da página ou recarregar, os dados serão
+      perdidos.
+    </p>
+    <form [formGroup]="form" (ngSubmit)="review()" novalidate>
+      @for (group of groups; track group.title; let index = $index) {
+        <fieldset>
+          <legend>
+            <span aria-hidden="true">0{{ index + 1 }} /</span> {{ group.title }}
+          </legend>
+          <p class="group-description">{{ group.description }}</p>
+          <div class="field-grid">
+            @for (field of group.fields; track field.name) {
+              <div class="field" [class.full-width]="field.type === 'textarea'">
+                <label [for]="'oficio-' + field.name"
+                  >{{ field.label }}
+                  @if (field.required) {
+                    <span aria-hidden="true">*</span>
+                  }
+                </label>
+                @switch (field.type) {
+                  @case ('select') {
+                    <select
+                      [id]="'oficio-' + field.name"
+                      [formControlName]="field.name"
+                      [attr.aria-describedby]="'hint-' + field.name"
+                    >
+                      <option value="">Não informar</option>
+                      <option value="publica">Pública</option>
+                      <option value="particular">Particular</option>
+                    </select>
+                  }
+                  @case ('textarea') {
+                    <textarea
+                      pTextarea
+                      [id]="'oficio-' + field.name"
+                      [formControlName]="field.name"
+                      rows="5"
+                      [required]="!!field.required"
+                      [invalid]="!!error(field)"
+                      [attr.aria-invalid]="error(field) ? 'true' : null"
+                      [attr.aria-describedby]="error(field) ? 'error-' + field.name : null"
+                    ></textarea>
+                  }
+                  @case ('number') {
+                    <input
+                      pInputText
+                      type="number"
+                      [min]="field.min ?? 1"
+                      step="1"
+                      [id]="'oficio-' + field.name"
+                      [formControlName]="field.name"
+                      [required]="!!field.required"
+                      [invalid]="!!error(field)"
+                      [attr.aria-invalid]="error(field) ? 'true' : null"
+                      [attr.aria-describedby]="
+                        'hint-' + field.name + (error(field) ? ' error-' + field.name : '')
+                      "
+                    />
+                  }
+                  @default {
+                    <input
+                      pInputText
+                      [id]="'oficio-' + field.name"
+                      [type]="field.type"
+                      [attr.min]="field.type === 'time' ? '08:00' : null"
+                      [attr.max]="field.type === 'time' ? '12:00' : null"
+                      [formControlName]="field.name"
+                      [required]="!!field.required"
+                      [invalid]="!!error(field)"
+                      [attr.aria-invalid]="error(field) ? 'true' : null"
+                      [attr.aria-describedby]="
+                        (field.hint ? 'hint-' + field.name : '') +
+                        (error(field) ? ' error-' + field.name : '')
+                      "
+                    />
+                  }
+                }
+                @if (field.hint) {
+                  <small class="hint" [id]="'hint-' + field.name">{{ field.hint }}</small>
+                }
+                @if (error(field)) {
+                  <small class="field-error" [id]="'error-' + field.name">{{ error(field) }}</small>
+                }
+              </div>
+            }
+          </div>
+        </fieldset>
+      }
+      @if (quantity() !== null && quantity()! > 50) {
+        <aside class="notice capacity-note">
+          A política da APL prevê até 50 alunos como número ideal por turno. Para o total informado,
+          é necessário desmembrar o grupo e solicitar datas ou turnos diferentes. A minuta registra
+          essa necessidade; não cria divisões, vagas ou agendamentos automaticamente.
+        </aside>
+      }
+      <button pButton type="submit">
+        Gerar prévia para revisar <span aria-hidden="true">→</span>
+      </button>
+    </form>
+    <p class="feedback" role="status" aria-live="polite">{{ feedback() }}</p>
+  </section>
+
+  <section class="preview-panel" aria-labelledby="preview-title">
+    <div data-oficio-screen>
+      <p class="eyebrow">Conferência do documento</p>
+      <h2 #previewHeading id="preview-title" tabindex="-1">Sua prévia para revisão</h2>
+      <p class="preview-hint">
+        Após gerar a minuta, confira os nomes, datas e objetivo pedagógico. Para corrigir, altere os
+        campos e gere a prévia novamente.
+      </p>
+    </div>
+    @if (draft(); as current) {
+      <app-oficio-preview [draft]="current" (printRequested)="print()" />
+    } @else {
+      <div class="empty-preview" data-oficio-screen>
+        <span aria-hidden="true">Aa</span>
+        <h3>O próximo capítulo começa com os dados da escola.</h3>
+        <p>
+          Preencha o formulário e gere a prévia. Nenhum dado ou número de protocolo será inventado.
+        </p>
+      </div>
+      <p class="oficio-print-empty">
+        Preencha os campos e gere a prévia do ofício antes de imprimir.
+      </p>
+    }
+  </section>
+</div>
+
+<section class="container after-draft" data-oficio-screen aria-labelledby="after-title">
+  <h2 id="after-title">Depois da revisão</h2>
+  <ol>
+    <li>Confira o modelo com a escola e com os requisitos atuais da APL.</li>
+    <li>
+      Transfira o texto para papel timbrado e providencie a emissão e assinatura pela direção ou
+      coordenação.
+    </li>
+    <li>
+      Envie o ofício em anexo ao e-mail oficial e aguarde a resposta de confirmação da equipe.
+    </li>
+  </ol>
+  <p>
+    Envie o ofício assinado, em anexo, exclusivamente para
+    <strong>academiadeletraspb&#64;gmail.com</strong>. Não há envio de e-mail por esta plataforma.
+  </p>
+  <p>
+    A exportação definitiva em PDF ou DOCX permanece pendente de decisão. Esta etapa oferece
+    impressão pelo navegador e cópia do texto.
+  </p>
+  <p>
+    Fonte dos dados exigidos:
+    <a href="https://aplpb.com.br/visitacao/">política oficial de visitação da APL</a>. A APL não
+    abre nos feriados. Após a confirmação, organize a chegada do grupo pelo menos 10 minutos antes.
+  </p>
+  <a routerLink="/como-visitar">← Rever as orientações de visitação</a>
+</section>

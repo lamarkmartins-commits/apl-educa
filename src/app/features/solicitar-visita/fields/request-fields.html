@@ -1,0 +1,85 @@
+<div [formGroup]="group()" class="fields-grid">
+  @for (field of fields(); track field.name) {
+    <div class="field" [class.wide]="field.type === 'textarea'">
+      <label [for]="prefix() + '-' + field.name"
+        >{{ field.label }}
+        @if (field.required) {
+          <span aria-hidden="true">*</span>
+        }
+      </label>
+      @switch (field.type) {
+        @case ('number') {
+          <input
+            pInputText
+            type="number"
+            [min]="field.min ?? 1"
+            step="1"
+            [id]="prefix() + '-' + field.name"
+            [formControlName]="field.name"
+            [required]="!!field.required"
+            [invalid]="!!error(field)"
+            [attr.aria-invalid]="error(field) ? 'true' : null"
+            [attr.aria-describedby]="
+              prefix() +
+              '-hint-' +
+              field.name +
+              (error(field) ? ' ' + prefix() + '-error-' + field.name : '')
+            "
+          />
+        }
+        @case ('select') {
+          <select
+            [id]="prefix() + '-' + field.name"
+            [formControlName]="field.name"
+            [required]="!!field.required"
+            [attr.aria-invalid]="error(field) ? 'true' : null"
+            [attr.aria-describedby]="
+              prefix() +
+              '-hint-' +
+              field.name +
+              (error(field) ? ' ' + prefix() + '-error-' + field.name : '')
+            "
+          >
+            <option value="">Selecione uma opção</option>
+            <option value="publica">Pública</option>
+            <option value="particular">Particular</option>
+          </select>
+        }
+        @case ('textarea') {
+          <textarea
+            pTextarea
+            rows="4"
+            [id]="prefix() + '-' + field.name"
+            [formControlName]="field.name"
+            [attr.aria-describedby]="field.hint ? prefix() + '-hint-' + field.name : null"
+          ></textarea>
+        }
+        @default {
+          <input
+            pInputText
+            [type]="field.type"
+            [attr.min]="field.type === 'time' ? '08:00' : null"
+            [attr.max]="field.type === 'time' ? '12:00' : null"
+            [id]="prefix() + '-' + field.name"
+            [formControlName]="field.name"
+            [required]="!!field.required"
+            [invalid]="!!error(field)"
+            [attr.aria-invalid]="error(field) ? 'true' : null"
+            [attr.aria-describedby]="
+              (field.hint ? prefix() + '-hint-' + field.name : '') +
+              (error(field) ? ' ' + prefix() + '-error-' + field.name : '')
+            "
+          />
+        }
+      }
+      @if (field.hint) {
+        <small class="hint" [id]="prefix() + '-hint-' + field.name">{{ field.hint }}</small>
+      }
+      @if (error(field)) {
+        <small class="field-error" [id]="prefix() + '-error-' + field.name">{{
+          error(field)
+        }}</small>
+      }
+    </div>
+  }
+</div>

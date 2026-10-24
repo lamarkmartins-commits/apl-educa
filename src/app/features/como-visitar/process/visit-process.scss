@@ -1,0 +1,68 @@
+@use '../visit-type';
+.process-section {
+  background: var(--apl-cream);
+}
+.process-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 1rem;
+}
+.process-list li {
+  display: grid;
+  grid-template-columns: 2.6rem minmax(0, 1fr);
+  gap: 1rem;
+  position: relative;
+  padding: 1.5rem;
+  border: 1px solid var(--apl-border);
+  border-radius: 0.6rem;
+  background: white;
+}
+.step-number {
+  display: grid;
+  place-items: center;
+  align-self: start;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background: var(--apl-cream);
+  font-size: 0.75rem;
+}
+.process-list h3 {
+  margin-bottom: 0.5rem;
+}
+.process-list p {
+  overflow-wrap: anywhere;
+  color: var(--apl-muted);
+  font-size: 0.82rem;
+  margin: 0;
+}
+.step-arrow {
+  position: absolute;
+  bottom: -1.05rem;
+  left: 2.1rem;
+  z-index: 1;
+  font-size: 0.9rem;
+  background: var(--apl-cream);
+  width: 1rem;
+  text-align: center;
+}
+.process-note {
+  margin: 1.5rem 0 0;
+  color: var(--apl-muted);
+  font-size: 0.75rem;
+}
+@media (min-width: 64rem) {
+  .process-list {
+    max-width: 53rem;
+    margin-inline: auto;
+  }
+  .process-list li {
+    grid-template-columns: 3rem minmax(0, 1fr);
+    padding: 1.5rem 2rem;
+  }
+  .step-arrow {
+    left: 2.8rem;
+  }
+}

@@ -1,0 +1,54 @@
+<div class="record-meta">
+  <p class="record-id">{{ record().idLocal }}</p>
+  <app-demo-status [value]="record().status" />
+  <p class="simulation-warning">
+    <strong>Este status é uma simulação local.</strong> Mesmo “Aprovada — simulação” não confirma
+    uma visita real. A confirmação institucional depende exclusivamente da equipe da APL.
+  </p>
+  <p class="timestamps">
+    Criado em {{ record().criadoEm | date: 'dd/MM/yyyy HH:mm' : 'UTC' }} · Atualizado em
+    {{ record().atualizadoEm | date: 'dd/MM/yyyy HH:mm' : 'UTC' }} (UTC)
+  </p>
+</div>
+@if (record().quantidadeAcompanhantes === undefined || !record().responsavel.telefone) {
+  <p class="simulation-warning">
+    Este registro não informa todos os dados exigidos na política atual. Dados ausentes de
+    demonstrações anteriores não foram completados ou inventados.
+  </p>
+}
+@if (record().quantidadeEstudantes > 50) {
+  <p class="simulation-warning">
+    Pela política da APL, o grupo deverá ser desmembrado para solicitar datas ou turnos diferentes.
+    Este registro local não representa reserva única para todo o grupo.
+  </p>
+}
+<div class="detail-grid">
+  @for (group of groups(); track group.title) {
+    <section>
+      <h3>{{ group.title }}</h3>
+      <dl>
+        @for (row of group.rows; track row.label) {
+          <div>
+            <dt>{{ row.label }}</dt>
+            <dd>{{ row.value || 'Não informado' }}</dd>
+          </div>
+        }
+      </dl>
+    </section>
+  }
+</div>
+<section class="notes" aria-label="Observações administrativas demonstrativas">
+  <h3>Observações administrativas — simulação</h3>
+  @if (record().observacoesAdministrativas?.length) {
+    <ol>
+      @for (note of record().observacoesAdministrativas; track $index) {
+        <li>{{ note }}</li>
+      }
+    </ol>
+  } @else {
+    <p>Nenhuma observação demonstrativa registrada.</p>
+  }
+  <p class="notes-hint">
+    São anotações de teste deste navegador. Não foram enviadas pela equipe da APL.
+  </p>
+</section>

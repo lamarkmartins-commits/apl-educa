@@ -1,0 +1,75 @@
+:host {
+  display: block;
+  min-width: 0;
+}
+.record-meta {
+  border-bottom: 1px solid var(--apl-border);
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+}
+.record-id {
+  font:
+    0.8rem/1.8 ui-monospace,
+    monospace;
+  overflow-wrap: anywhere;
+}
+.simulation-warning {
+  font-size: 0.8rem;
+  margin-block: 1rem;
+}
+.timestamps {
+  font-size: 0.67rem;
+  color: var(--apl-muted);
+}
+.detail-grid {
+  display: grid;
+  gap: 1.5rem;
+}
+h3 {
+  font: 500 1rem/1.4 var(--apl-font-body);
+}
+dl {
+  margin: 0;
+}
+dl > div {
+  display: grid;
+  grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.3fr);
+  gap: 1rem;
+  padding-block: 0.35rem;
+}
+dt {
+  font-size: 0.74rem;
+  color: var(--apl-muted);
+}
+dd {
+  margin: 0;
+  font-size: 0.8rem;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+.notes {
+  margin-top: 1.5rem;
+  border-top: 1px solid var(--apl-border);
+  padding-top: 1.5rem;
+}
+.notes li {
+  font-size: 0.8rem;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+  margin-bottom: 0.7rem;
+}
+.notes p {
+  font-size: 0.8rem;
+}
+.notes .notes-hint {
+  font-size: 0.68rem;
+  color: var(--apl-muted);
+}
+@media (min-width: 48rem) {
+  .detail-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .detail-grid section:last-child {
+    grid-column: 1/-1;
+  }
+}

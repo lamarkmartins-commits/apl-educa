@@ -1,0 +1,189 @@
+@use './visit-type';
+.breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  padding-top: 1.7rem;
+  font-size: 0.72rem;
+  color: var(--apl-muted);
+}
+.visit-intro {
+  display: grid;
+  gap: 2rem;
+  padding-block: 3rem;
+  align-items: center;
+}
+h1 {
+  font-size: clamp(2.8rem, 5vw, 4.6rem);
+  line-height: 1.05;
+}
+h1 em {
+  font-family: var(--apl-font-heading);
+  color: var(--apl-green);
+  font-weight: 400;
+}
+.lead {
+  max-width: 36rem;
+  color: var(--apl-muted);
+  font-size: 1rem;
+  line-height: 1.8;
+  margin-bottom: 1.8rem;
+}
+.intro-note {
+  padding: 2rem;
+  background: var(--apl-cream);
+  border-radius: 0.75rem;
+}
+.intro-note h2 {
+  font-size: 1.6rem;
+  margin-top: 1.8rem;
+}
+.intro-note p {
+  font-size: 0.83rem;
+  color: var(--apl-muted);
+}
+.note-number,
+.note-end {
+  display: block;
+  font-size: 0.65rem;
+}
+.note-end {
+  border-top: 1px solid var(--apl-border);
+  padding-top: 1rem;
+  margin-top: 1.5rem;
+}
+.confirmation-note {
+  display: flex;
+  gap: 1rem;
+}
+.confirmation-note h2 {
+  font-size: 1rem;
+  letter-spacing: -0.01em;
+}
+.confirmation-note p {
+  color: var(--apl-muted);
+  font-size: 0.82rem;
+}
+.info-icon {
+  flex-shrink: 0;
+  width: 1.3rem;
+  height: 1.3rem;
+  border: 1px solid var(--apl-green);
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 0.75rem;
+}
+.section-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem 1.5rem;
+  padding-block: 1.5rem;
+  border-bottom: 1px solid var(--apl-border);
+  font-size: 0.75rem;
+}
+.section-nav a {
+  text-decoration: none;
+}
+.section-nav a:hover {
+  text-decoration: underline;
+}
+.guidance-grid {
+  display: grid;
+  gap: 1rem;
+}
+.guidance-grid article {
+  border: 1px solid var(--apl-border);
+  border-radius: 0.6rem;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+}
+.card-label {
+  font-size: 0.65rem;
+  color: var(--apl-muted);
+}
+.guidance-grid article > p:not(.card-label) {
+  font-size: 0.83rem;
+  color: var(--apl-muted);
+}
+.policy-label {
+  margin-top: auto;
+  font-size: 0.65rem;
+  background: var(--apl-cream);
+  border-radius: 0.25rem;
+  padding: 0.3rem 0.5rem;
+}
+.channel-section {
+  display: grid;
+  gap: 2rem;
+  padding-block: 0 4rem;
+}
+.channel-section h2 {
+  font-size: 1.8rem;
+}
+.channel-section p {
+  font-size: 0.87rem;
+  color: var(--apl-muted);
+}
+.channel-section aside {
+  border-left: 2px solid var(--apl-terracotta);
+  padding-left: 1.5rem;
+}
+.channel-section aside p {
+  font-size: 0.78rem;
+}
+.channel-section .email {
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: var(--apl-brown);
+  overflow-wrap: anywhere;
+  margin-block: 0.5rem;
+}
+.next-step {
+  padding: clamp(1.5rem, 4vw, 3rem);
+  border-radius: 0.75rem;
+  background: var(--apl-brown);
+  color: white;
+}
+.next-step p:not(.kicker) {
+  font-size: 0.88rem;
+  max-width: 40rem;
+}
+.next-step .actions {
+  margin-block: 1.5rem;
+}
+.next-step .actions > a {
+  font-size: 0.8rem;
+}
+.next-step .p-button {
+  background: var(--apl-cream);
+  border-color: var(--apl-cream);
+  color: var(--apl-brown);
+}
+.next-step .p-button:hover {
+  background: white;
+}
+.next-step .availability {
+  font-size: 0.72rem !important;
+  color: var(--apl-cream);
+  margin: 0;
+}
+.back-home {
+  padding-block: 1.5rem 3rem;
+  font-size: 0.75rem;
+}
+@media (min-width: 48rem) {
+  .visit-intro {
+    grid-template-columns: 1.4fr 1fr;
+    gap: 3rem;
+  }
+  .guidance-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .channel-section {
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+  }
+}

@@ -1,0 +1,57 @@
+<section id="documentacao" class="container section" aria-labelledby="preparation-title">
+  <div class="section-heading">
+    <p class="kicker">O que você vai precisar</p>
+    <h2 id="preparation-title">Reúna as informações.<br />Chegue ao próximo passo com clareza.</h2>
+    <p>
+      Esta relação reúne as informações exigidas pela política de visitação para o ofício escolar.
+      Ela orienta a preparação; nenhum dado pessoal é solicitado nesta página.
+    </p>
+  </div>
+  <div class="preparation-grid">
+    @for (group of groups; track group.title) {
+      <article>
+        <h3>{{ group.title }}</h3>
+        <ul>
+          @for (field of group.fields; track field) {
+            <li>{{ field }}</li>
+          }
+        </ul>
+      </article>
+    }
+  </div>
+  <aside class="document-note">
+    <strong>O ofício precisa de revisão humana.</strong> Preparar um modelo não substitui o papel
+    timbrado, a assinatura da direção ou coordenação ou o envio como anexo ao e-mail oficial da APL.
+  </aside>
+</section>
+
+<section id="checklist" class="container checklist-section" aria-labelledby="checklist-title">
+  <div class="checklist-intro">
+    <p class="kicker">Antes de solicitar</p>
+    <h2 id="checklist-title">Uma pausa para conferir.</h2>
+    <p>
+      Marque o que você já organizou. O checklist é opcional, educativo e não libera nem impede a
+      solicitação.
+    </p>
+    <p class="checklist-progress" aria-live="polite" aria-atomic="true">
+      {{ checkedCount() }} de {{ checks.length }} itens conferidos.
+    </p>
+    <p class="session-note">
+      As marcações não são salvas. Ao sair desta página ou recarregá-la, o checklist será
+      reiniciado.
+    </p>
+  </div>
+  <fieldset>
+    <legend>Confira sua preparação para a visita</legend>
+    @for (check of checks; track check.id) {
+      <div class="check-row">
+        <p-checkbox
+          [inputId]="'visit-check-' + check.id"
+          [binary]="true"
+          [ngModel]="selected().has(check.id)"
+          (ngModelChange)="toggle(check.id, $event)"
+        /><label [for]="'visit-check-' + check.id">{{ check.label }}</label>
+      </div>
+    }
+  </fieldset>
+</section>

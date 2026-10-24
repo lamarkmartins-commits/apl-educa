@@ -1,0 +1,80 @@
+<div class="container tracking-page">
+  <nav class="breadcrumb" aria-label="Localização">
+    <a routerLink="/">Início</a><span aria-hidden="true">/</span
+    ><span aria-current="page">Acompanhamento demonstrativo</span>
+  </nav>
+  <header class="intro">
+    <p class="eyebrow">Consulta local · Dados fictícios</p>
+    <h1>Acompanhe o exemplo.<br /><em>Entenda cada etapa.</em></h1>
+    <p>
+      Consulte o registro salvo na demonstração. Os dados e status existem apenas neste navegador e
+      neste endereço, sem ligação com a agenda ou o protocolo da APL.
+    </p>
+  </header>
+  <aside class="notice">
+    <p>
+      <strong>Consulta demonstrativa, não acompanhamento institucional.</strong> Nenhum status
+      exibido aqui representa análise ou confirmação real de visita pela APL. Não use dados pessoais
+      reais.
+    </p>
+  </aside>
+  <section class="lookup" aria-labelledby="lookup-title">
+    <h2 id="lookup-title">Informe seu identificador local</h2>
+    <form (submit)="$event.preventDefault(); lookup()" novalidate>
+      <label for="lookup-code">Código da demonstração</label>
+      <div class="lookup-controls">
+        <input
+          pInputText
+          id="lookup-code"
+          type="text"
+          required
+          [formControl]="code"
+          autocomplete="off"
+          spellcheck="false"
+          [attr.aria-invalid]="code.touched && code.invalid ? 'true' : null"
+          aria-describedby="lookup-hint lookup-error"
+        /><button pButton type="submit" [disabled]="!ready()">Consultar registro</button>
+      </div>
+      <small id="lookup-hint"
+        >Use o código DEMO-… exibido ao salvar. A consulta precisa ocorrer no mesmo navegador e
+        endereço.</small
+      >
+      <p id="lookup-error" class="error" role="alert">{{ error() }}</p>
+    </form>
+    @if (!ready()) {
+      <p class="loading" role="status">
+        A consulta estará disponível após o carregamento no navegador.
+      </p>
+    }
+  </section>
+  @if (record(); as current) {
+    <section class="result" aria-labelledby="result-title">
+      <div class="result-heading">
+        <h2 id="result-title" tabindex="-1">Registro demonstrativo encontrado</h2>
+        <button pButton type="button" [outlined]="true" (click)="lookup()">
+          Atualizar consulta
+        </button>
+      </div>
+      <app-demo-record-details [record]="current" />
+    </section>
+  } @else if (notFound()) {
+    <section class="empty" aria-labelledby="result-title">
+      <h2 id="result-title" tabindex="-1">Código não encontrado neste navegador</h2>
+      <p>
+        Confira se o código foi copiado por completo e se você usa o mesmo navegador e endereço em
+        que salvou. A limpeza dos dados do navegador pode remover os registros locais.
+      </p>
+      <a routerLink="/solicitar-visita">Criar uma solicitação de exemplo →</a>
+    </section>
+  }
+  <footer class="page-note">
+    <p>
+      A confirmação de uma visita real depende da resposta da equipe da APL pelo canal
+      institucional.
+    </p>
+    <div class="actions">
+      <a routerLink="/como-visitar">Rever as orientações</a
+      ><a routerLink="/admin">Administração demonstrativa →</a>
+    </div>
+  </footer>
+</div>

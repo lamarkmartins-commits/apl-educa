@@ -1,0 +1,56 @@
+<app-home-hero />
+
+<section id="por-que-visitar" class="section container benefits" aria-labelledby="benefits-title">
+  <div class="section-heading">
+    <p class="section-label">Muito além de uma saída da escola</p>
+    <h2 id="benefits-title">
+      Há histórias que ganham outra dimensão <em>quando a gente se aproxima.</em>
+    </h2>
+    <p>
+      Sair da sala pode ampliar o olhar. Uma visita bem preparada conecta o que se aprende nos
+      livros com a cultura, a memória e as perguntas da turma.
+    </p>
+  </div>
+  <div class="benefit-grid">
+    @for (benefit of benefits; track benefit.kind) {
+      <article class="benefit-card">
+        <div class="benefit-art" [class]="'benefit-art ' + benefit.kind" aria-hidden="true">
+          <span class="symbol"></span><span class="art-index">{{ benefit.icon }} /</span>
+        </div>
+        <h3>{{ benefit.title }}</h3>
+        <p>{{ benefit.text }}</p>
+      </article>
+    }
+  </div>
+</section>
+
+<section class="planning-section section" aria-labelledby="planning-title">
+  <div class="container">
+    <div class="planning-heading">
+      <div>
+        <p class="section-label">Da ideia ao encontro</p>
+        <h2 id="planning-title">Uma boa visita começa<br />com um plano claro.</h2>
+      </div>
+      <p>
+        Quer levar sua turma? Entenda o caminho da solicitação e o papel da escola em cada etapa.
+      </p>
+    </div>
+    <ol class="step-grid">
+      @for (step of steps; track step.title; let index = $index) {
+        <li>
+          <span class="step-number" aria-hidden="true">0{{ index + 1 }}</span>
+          <h3>{{ step.title }}</h3>
+          <p>{{ step.text }}</p>
+        </li>
+      }
+    </ol>
+    <div class="planning-bottom">
+      <p><strong>Planejar é o primeiro passo.</strong> A confirmação é sempre da APL.</p>
+      <a class="text-link" routerLink="/como-visitar"
+        >Conhecer o espaço de orientações <span aria-hidden="true">↗</span></a
+      >
+    </div>
+  </div>
+</section>
+
+<app-home-resources />

@@ -1,0 +1,70 @@
+.prototype {
+  background: var(--apl-brown);
+  color: var(--apl-cream);
+  text-align: center;
+  padding: 0.45rem 1rem;
+  font-size: 0.65rem;
+}
+header {
+  background: var(--apl-white);
+  border-bottom: 1px solid var(--apl-border);
+}
+.header-inner {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  padding-block: 1.1rem;
+  gap: 1rem;
+}
+.brand {
+  text-decoration: none;
+  display: grid;
+}
+.brand-title {
+  font-family: var(--apl-font-heading);
+  font-size: 1.7rem;
+  line-height: 1.2;
+}
+.brand-title em {
+  font-weight: 400;
+}
+.brand-caption {
+  text-transform: uppercase;
+  font-size: 0.55rem;
+  letter-spacing: 0.16em;
+}
+nav {
+  display: none;
+  width: 100%;
+  gap: 0.25rem;
+}
+nav.open {
+  display: grid;
+}
+nav a {
+  padding: 0.65rem 0.5rem;
+  text-decoration: none;
+  font-size: 0.78rem;
+  border-bottom: 2px solid transparent;
+}
+nav a:hover,
+nav a.active {
+  border-bottom-color: var(--apl-terracotta);
+}
+nav a:last-child {
+  background: var(--apl-cream);
+  border-radius: 0.4rem;
+  padding-inline: 0.8rem;
+}
+@media (min-width: 75rem) {
+  .menu-toggle {
+    display: none;
+  }
+  nav,
+  nav.open {
+    display: flex;
+    width: auto;
+    gap: 0.6rem;
+  }
+}

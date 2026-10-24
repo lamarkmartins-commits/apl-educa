@@ -1,0 +1,239 @@
+:host {
+  display: block;
+}
+.hero {
+  display: grid;
+  gap: 3rem;
+  padding-block: 3.5rem;
+  align-items: center;
+}
+.hero-copy {
+  min-width: 0;
+}
+.section-label {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.73rem;
+  font-weight: 600;
+  letter-spacing: 0.015em;
+  margin-bottom: 1.5rem;
+}
+.label-dot {
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 50%;
+  background: var(--apl-green);
+}
+h1,
+h2,
+h3 {
+  font-family: var(--apl-font-body);
+  font-weight: 500;
+}
+h1 {
+  font-size: clamp(2.5rem, 4.6vw, 4.25rem);
+  letter-spacing: -0.055em;
+  line-height: 1.08;
+  margin-bottom: 1.5rem;
+  max-width: 14ch;
+}
+h1 em,
+h2 em {
+  font-family: var(--apl-font-heading);
+  font-weight: 400;
+  color: var(--apl-green);
+}
+h2 {
+  font-size: clamp(1.9rem, 3.1vw, 2.9rem);
+  letter-spacing: -0.045em;
+  line-height: 1.18;
+}
+h3 {
+  font-size: 1.1rem;
+  line-height: 1.35;
+  letter-spacing: -0.025em;
+}
+.intro {
+  color: var(--apl-muted);
+  max-width: 34rem;
+  font-size: 1rem;
+  line-height: 1.8;
+}
+.actions {
+  gap: 1.4rem;
+  margin-top: 2rem;
+}
+.text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-decoration: none;
+  padding-block: 0.5rem;
+}
+.text-link:hover {
+  text-decoration: underline;
+}
+.hero-footnote {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 2.8rem;
+}
+.hero-footnote p {
+  margin: 0;
+  font-size: 0.72rem;
+  color: var(--apl-muted);
+}
+.hero-footnote strong {
+  font-weight: 500;
+  color: var(--apl-brown);
+}
+.note-line {
+  width: 2rem;
+  height: 1px;
+  background: var(--apl-terracotta);
+}
+.literary-art {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: var(--apl-cream);
+  min-height: 32rem;
+  border-radius: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1.8rem;
+}
+.art-topline,
+.art-bottomline {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  font-size: 0.55rem;
+  letter-spacing: 0.12em;
+  z-index: 2;
+}
+.art-title {
+  font-size: clamp(3.5rem, 6vw, 5.1rem);
+  font-weight: 500;
+  letter-spacing: -0.06em;
+  line-height: 0.95;
+  margin-top: 1.5rem;
+  z-index: 2;
+}
+.art-title em {
+  font-family: var(--apl-font-heading);
+  font-weight: 400;
+}
+.orbit {
+  position: absolute;
+  border: 1px solid var(--apl-terracotta);
+  width: 31rem;
+  height: 31rem;
+  border-radius: 50%;
+  top: 7rem;
+  left: 8rem;
+  opacity: 0.3;
+  z-index: -1;
+}
+.orbit-two {
+  width: 34rem;
+  height: 34rem;
+  top: 5.5rem;
+  left: 6.5rem;
+}
+.book {
+  position: relative;
+  display: flex;
+  align-self: end;
+  width: 72%;
+  height: 9rem;
+  margin: 1rem 0 2rem;
+  transform: rotate(-12deg);
+  filter: drop-shadow(0 1rem 1rem #51352720);
+}
+.page {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.65rem;
+  padding: 1.2rem;
+  background: var(--apl-white);
+  border-bottom: 0.4rem solid var(--apl-terracotta);
+}
+.page-left {
+  transform: skewY(10deg);
+  border-radius: 0.25rem 0 0 0.25rem;
+  background: linear-gradient(90deg, white 80%, #e8dfd4);
+}
+.page-right {
+  transform: skewY(-10deg);
+  border-radius: 0 0.25rem 0.25rem 0;
+}
+.page span {
+  display: block;
+  height: 1px;
+  background: var(--apl-border);
+}
+.page span:last-child {
+  width: 60%;
+}
+.bookmark {
+  position: absolute;
+  background: var(--apl-green);
+  width: 1rem;
+  height: 4rem;
+  top: -0.2rem;
+  right: 25%;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 80%, 0 100%);
+  transform: skewY(-10deg);
+}
+.subject-strip {
+  border-block: 1px solid var(--apl-border);
+  padding-block: 1.3rem;
+}
+.subject-strip .container,
+.subject-strip ul {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem 2rem;
+}
+.subject-strip p {
+  margin: 0;
+  color: var(--apl-muted);
+  font-size: 0.72rem;
+}
+.subject-strip ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+@media (min-width: 64rem) {
+  .hero {
+    grid-template-columns: 1.15fr 1fr;
+    gap: 4rem;
+    padding-block: 4.5rem;
+  }
+}
+@media (max-width: 30rem) {
+  .literary-art {
+    min-height: 28rem;
+    padding: 1.5rem;
+  }
+  .book {
+    width: 85%;
+  }
+  .subject-strip ul {
+    gap: 0.6rem 1.2rem;
+  }
+}

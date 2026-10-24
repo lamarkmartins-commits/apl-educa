@@ -1,0 +1,46 @@
+.review-grid {
+  display: grid;
+  gap: 1.2rem;
+}
+section {
+  padding: 1.25rem;
+  border: 1px solid var(--apl-border);
+  border-radius: 0.6rem;
+}
+.review-heading {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+h3 {
+  font: 500 1rem/1.4 var(--apl-font-body);
+}
+button {
+  background: none;
+  border: 0;
+  padding: 0.2rem;
+  color: var(--apl-brown);
+  font-size: 0.75rem;
+  cursor: pointer;
+  text-decoration: underline;
+}
+dl {
+  margin: 0;
+}
+dl > div {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  gap: 0.8rem;
+  padding-block: 0.4rem;
+}
+dt {
+  font-size: 0.75rem;
+  color: var(--apl-muted);
+}
+dd {
+  margin: 0;
+  font-size: 0.8rem;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}

@@ -1,0 +1,70 @@
+<div class="container materials-page">
+  <nav class="breadcrumb" aria-label="Localização">
+    <a routerLink="/">Início</a><span aria-hidden="true">/</span>
+    <span aria-current="page">Materiais educativos</span>
+  </nav>
+  <header class="intro">
+    <p class="eyebrow">Antes do encontro</p>
+    <h1>Materiais educativos</h1>
+    <p class="lead">Uma visita começa muito antes de sair da escola.</p>
+    <p>
+      Explore os guias de preparação, organize as informações da turma e conheça o caminho até a
+      solicitação.
+    </p>
+  </header>
+  <aside class="notice" aria-label="Sobre os materiais disponíveis">
+    <p>
+      <strong>Guias de preparação do protótipo.</strong> Estes conteúdos locais demonstram o
+      catálogo e se baseiam na especificação do APL Educa. Não são publicações oficiais nem
+      materiais homologados pela APL.
+    </p>
+    <p>
+      O acervo educativo institucional ainda aguarda seleção e validação. Não há PDFs oficiais ou
+      downloads disponíveis neste catálogo.
+    </p>
+  </aside>
+  <section class="catalog" aria-labelledby="catalog-title">
+    <h2 id="catalog-title">Para planejar com mais tranquilidade</h2>
+    <p>Abra um guia para ler aqui mesmo. Nenhum cadastro é necessário.</p>
+    <div class="material-grid">
+      @for (material of materiais; track material.id; let index = $index) {
+        <article class="material-card" [attr.aria-labelledby]="material.id + '-title'">
+          <div class="card-art" aria-hidden="true">
+            <span>0{{ index + 1 }}</span
+            ><span class="book-mark">Aa</span>
+          </div>
+          <div class="card-body">
+            <p class="eyebrow">Guia local · Preparação</p>
+            <h3 [id]="material.id + '-title'">{{ material.titulo }}</h3>
+            <p>{{ material.descricao }}</p>
+            <details>
+              <summary>Ler guia: {{ material.titulo }}</summary>
+              <ul>
+                @for (ponto of material.pontos; track ponto) {
+                  <li>{{ ponto }}</li>
+                }
+              </ul>
+              <a [routerLink]="material.rota"
+                >{{ material.acao }} <span aria-hidden="true">→</span></a
+              >
+            </details>
+          </div>
+        </article>
+      }
+    </div>
+  </section>
+  <section class="next-step" aria-labelledby="next-title">
+    <div>
+      <p class="eyebrow">Da leitura ao planejamento</p>
+      <h2 id="next-title">Sua turma, um novo capítulo.</h2>
+      <p>
+        Conheça as orientações e prepare o documento da escola. A confirmação de uma visita real
+        depende da equipe da APL.
+      </p>
+    </div>
+    <div class="actions">
+      <a pButton routerLink="/como-visitar">Como visitar</a>
+      <a pButton [outlined]="true" routerLink="/preparar-oficio">Preparar meu ofício</a>
+    </div>
+  </section>
+</div>
